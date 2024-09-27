@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
+use App\Models\Post;
+use App\Models\Tag;
+use App\Models\Widget;
 use Illuminate\Http\Request;
+use Symfony\Component\VarDumper\VarDumper;
 
 class HomeController extends Controller
 {
@@ -13,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     /**
@@ -23,6 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $pages = Page::get();
+        $posts = Post::orderBy('id', 'desc')->paginate(6);
+        $widgets = Widget::get();
+        $tags = Tag::select('name')->orderBy('name')->distinct()->get();
+
+        return view('index', ['pages' => $pages, 'posts' => $posts, 'widgets' => $widgets]);
     }
 }
