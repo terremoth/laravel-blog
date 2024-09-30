@@ -18,7 +18,7 @@ class TagFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
+            'name' => ucwords(fake()->bothify(str_repeat('?', mt_rand(5, 12)))),
             'post_id' => Post::select('id')->inRandomOrder()->limit(1)->first()->id
         ];
     }

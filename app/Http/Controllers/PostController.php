@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\Tag;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -47,7 +49,10 @@ class PostController extends Controller
             return redirect()->route('post', ['id' => $id, 'url' => $post->url]);
         }
 
-        return view('posts/show', ['post' => $post]);
+        $pages = Page::all();
+        $tags = Tag::halfTags();
+
+        return view('posts/show', ['post' => $post, 'pages' => $pages, 'tags' => $tags]);
     }
 
     /**

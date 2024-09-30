@@ -19,6 +19,8 @@ return new class extends Migration
             $table->mediumText('content')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->string('meta_description')->nullable();
+            $table->string('featured_image_path')->nullable();
+            $table->string('featured_image_alt')->nullable();
             $table->timestamps();
         });
     }

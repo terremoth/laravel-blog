@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 
 class PageController extends Controller
 {
@@ -35,9 +39,16 @@ class PageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Page $page)
+    public function show($id, $url): Factory|Application|View|RedirectResponse
     {
-        //
+        $page = Page::findOrFail($id);
+
+        if ($page->url != $url) {
+            return redirect()->route('page', ['id' => $id, 'url' => $page->url]);
+        }
+
+        $pages = Page::all();
+        return view('pages/show', ['page' => $page, 'pages' => $pages]);
     }
 
     /**

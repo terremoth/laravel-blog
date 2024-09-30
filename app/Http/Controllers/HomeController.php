@@ -31,8 +31,7 @@ class HomeController extends Controller
         $pages = Page::get();
         $posts = Post::orderBy('id', 'desc')->paginate(6);
         $widgets = Widget::get();
-        $tags = Tag::select('name')->orderBy('name')->distinct()->get();
-
-        return view('index', ['pages' => $pages, 'posts' => $posts, 'widgets' => $widgets]);
+        $tags = Tag::halfTags();
+        return view('index', ['pages' => $pages, 'posts' => $posts, 'widgets' => $widgets, 'tags' => $tags]);
     }
 }

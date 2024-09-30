@@ -1,19 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
-
-
-Route::get('/post/{id}/{url?}', [\App\Http\Controllers\PostController::class, 'show'])->name('post');
-
-Route::resource('post', \App\Http\Controllers\PostController::class);
-
-Route::get('/admin', function () {
-    return '<h1>Admin Page</h1>';
-});
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 
 Auth::routes();
+
+Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/post/{id}/{url?}', [PostController::class, 'show'])->name('post');
+Route::get('/page/{id}/{url?}', [PageController::class, 'show'])->name('page');
+Route::get('/tag/{name}', [TagController::class, 'show'])->name('tag');
+
+Route::resource('post', PostController::class);
+Route::resource('page', PageController::class);
+
 
 Route::get('/page', function () {
     return '<h1>Blog Pages</h1>';

@@ -19,10 +19,11 @@ return new class extends Migration
             $table->string('featured_image_path')->nullable();
             $table->string('featured_image_alt')->nullable();
             $table->mediumText('content')->nullable();
-            $table->foreignId('last_updated_by')->nullable()->constrained();
+            $table->unsignedBigInteger('last_updated_by')->nullable();
             $table->boolean('enable_comments')->default(true);
             $table->string('url');
             $table->timestamps();
+            $table->foreign('last_updated_by')->on('users')->references('id');
         });
     }
 

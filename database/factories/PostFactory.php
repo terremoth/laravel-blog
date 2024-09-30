@@ -18,14 +18,16 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        $title = ucwords(implode(' ', fake()->words(mt_rand(3,10))));
+        $title = ucwords(fake()->words(mt_rand(3,10), true));
 
         return [
             'title' => $title,
             'content' => fake()->realTextBetween(250, 1000),
             'user_id' => User::select('id')->inRandomOrder()->limit(1)->first()->id,
             'url' => Str::slug($title),
-            'enable_comments' => fake()->boolean(75)
+            'enable_comments' => fake()->boolean(75),
+            'featured_image_path' => fake()->boolean() ? 'https://picsum.photos/600/400' : null,
+            'featured_image_alt' => 'Picsum random image',
         ];
     }
 }

@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
+use App\Models\Post;
 use App\Models\Tag;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
+use App\Models\User;
+use App\Models\Widget;
+use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
@@ -35,9 +40,21 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tag $tag)
+    public function show($name)
     {
-        //
+        $posts = Post::select('tags.name')
+            ->select('posts.*')
+            ->join('tags', 'tags.post_id', '=', 'posts.id')
+            ->where('tags.name', '=', $name)
+//            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->paginate(7);
+
+//        dd($posts);
+
+        $pages = Page::get();
+        $widgets = Widget::get();
+        $tags = Tag::halfTags();
+        return view('index', ['pages' => $pages, 'posts' => $posts, 'widgets' => $widgets, 'tags' => $tags]);
     }
 
     /**
