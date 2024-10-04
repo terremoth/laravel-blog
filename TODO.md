@@ -1,6 +1,6 @@
 # TODO
-- [ ] Pre-defined widgets
 - [ ] New table email_report_config (user_id, monthly_interaction, posts, comments)
+- [ ] Pre-defined widgets
   - [ ] Blog search bar
   - [ ] Blog Google search bar
   - [ ] Blog Archive
