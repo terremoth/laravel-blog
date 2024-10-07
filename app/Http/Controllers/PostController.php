@@ -19,7 +19,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::orderBy('id', 'desc')->limit(10)->paginate();
+
+        return view('admin/posts/index', ['posts' => $posts]);
     }
 
     /**
@@ -41,7 +43,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post, $id, $url): Factory|Application|View|RedirectResponse
+    public function show($id, $url): Factory|Application|View|RedirectResponse
     {
         $post = Post::findOrFail($id);
 
@@ -58,9 +60,9 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(Post $post) : View
     {
-        //
+        return view('admin/posts/edit', ['post' => $post]);
     }
 
     /**

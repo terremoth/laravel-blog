@@ -43,8 +43,8 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Admin Area</div>
-
-                    <a class="nav-link {{ Route::is('admin') ? 'text-white' : ''}}" href="{{ route('admin') }}">
+{{--                    {{dd(\Request::route()->getName())}}--}}
+                    <a class="nav-link {{ Route::is('admin.index') ? 'text-white' : ''}}" href="{{ route('admin.index') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>

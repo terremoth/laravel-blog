@@ -1,13 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Route;
 
-Route::prefix('admin')->middleware('auth')->name('admin')->group(function () {
-    Route::get('/', [DashboardController::class, 'index']);
+
+Route::name('admin.')->prefix('admin')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+    Route::resource('posts', PostController::class);
 
     Route::get('/users', function () {
         return 'entrou!!';
-    });
+    })->name('users');
 });
-
