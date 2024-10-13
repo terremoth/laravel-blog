@@ -9,7 +9,6 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Tag;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -98,7 +97,7 @@ class PostController extends Controller
             $diffNewToOld = $tagsTrimmedUnique->diff($oldPostTags);
             $diffOldToNew = $oldPostTags->diff($tagsTrimmedUnique);
 
-            if ( count($diffNewToOld->all()) > 0 || $diffOldToNew->all() > 0) {
+            if (count($diffNewToOld->all()) > 0 || $diffOldToNew->all() > 0) {
                 $post->tags()->delete();
                 Tag::massSave($tagsTrimmedUnique, $post);
             }
