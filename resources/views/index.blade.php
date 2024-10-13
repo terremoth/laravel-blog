@@ -29,7 +29,7 @@
                                 <time itemprop="dateCreated" title="{{ $post->created_at->format('r')}}" datetime="{{$post->created_at->format('c')}}" class="small text-muted">{{ $post->created_at->format('r') }}</time>
                                 <h2 class="card-title h4">{{ $post->title }}</h2>
                                 <div class="small text-muted mb-2">by {{$post->user->name}}</div>
-                                <p class="card-text">{{ substr($post->content,0, 255) }}</p>
+                                <p class="card-text">{{ html_entity_decode(strip_tags(substr($post->content,0, 255))) }}</p>
                                 <a class="btn btn-primary" href="{{ route('post', [$post->id, $post->url]) }}">Read more →</a>
                             </div>
                     </div>

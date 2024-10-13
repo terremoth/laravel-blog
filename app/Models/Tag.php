@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  *
@@ -34,10 +35,28 @@ class Tag extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'post_id'];
+
     public function post(): HasOne
     {
         return $this->hasOne(Post::class);
     }
+
+    public function flattenArray() : array
+    {
+        return $this->select('name')->flatten()->toArray();
+    }
+
+    public function asStringTogether() : string
+    {
+        return implode(',', $this->flattenArray());
+    }
+
+    public function asStringSeparated() : string
+    {
+        return implode(', ', $this->flattenArray());
+    }
+
 
     public static function halfTags(): array
     {
@@ -46,5 +65,24 @@ class Tag extends Model
         $first = $tags->limit($halfTags)->get();
         $second = $tags->skip($halfTags)->get();
         return compact('first', 'second');
+    }
+
+    public static function uniqueTrimmedTags(string $commaSeparatedTagList) : Collection
+    {
+        $splitTags = explode(',', $commaSeparatedTagList);
+        $tagsCollection = collect($splitTags);
+        return $tagsCollection->map(fn ($item) => trim($item))
+            ->unique()
+            ->filter(fn ($item) => mb_strlen($item) > 0);
+    }
+
+    public static function massSave(Collection $tagsTrimmedUnique, Post $post) : void
+    {
+        $postId = $post->id;
+        $tagsCollectionForModel = $tagsTrimmedUnique->map(function ($item) use ($postId) {
+            return ['name' => $item, 'post_id' => $postId];
+        });
+
+        $post->tags()->createMany($tagsCollectionForModel->toArray());
     }
 }

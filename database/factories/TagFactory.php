@@ -17,8 +17,18 @@ class TagFactory extends Factory
      */
     public function definition(): array
     {
+        $tagList = [
+            'car', 'game', 'programming', 'web', 'php', 'wheels', 'ecommerce', 'browser', 'race', 'cloth',
+            'judo', 'cryptocurrency', 'artificial intelligence', 'css', 'ecology', 'book', 'magic', 'console',
+            'tea', 'drink', 'bed', 'iron', 'basketball', 'soccer', 'chatbot', 'music', 'king kong', 'wireless',
+            'graphics programming', 'art', 'real time', 'rain forest', 'martial art', 'Linux Mint', 'object oriented',
+            'glass', 'fork', 'electronics', 'toy', 'product', 'hardware', 'motorcycle', 'bug bounty', 'kick flip'
+        ];
+
+        $name = collect($tagList)->random();
+
         return [
-            'name' => ucwords(fake()->bothify(str_repeat('?', mt_rand(5, 12)))),
+            'name' => $name,
             'post_id' => Post::select('id')->inRandomOrder()->limit(1)->first()->id
         ];
     }

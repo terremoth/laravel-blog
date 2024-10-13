@@ -7,7 +7,7 @@
     </ol>
     <div class="row">
         <div>
-            <a role="button" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
+            <a role="button" href="{{ route('admin.posts.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
         </div>
     </div>
     <div class="row mt-4">
@@ -17,6 +17,7 @@
                     <tr>
                         <th>id</th>
                         <th>Title</th>
+                        <th>Tags</th>
                         <th>By</th>
                         <th># Comments</th>
                         <th>Control</th>
@@ -28,6 +29,7 @@
                             <tr>
                                 <td>{{ $post->id  }}</td>
                                 <td>{{ $post->title }}</td>
+                                <td>{{ $post->tagsAsStringSeparated() }}</td>
                                 <td>{{ $post->user->name }}</td>
                                 <td>{{ $post->comments->count() }}</td>
                                 <td>

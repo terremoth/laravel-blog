@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
@@ -27,3 +28,7 @@ Route::get('/user', function () {
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/tag-list', static function (Tag $tag) {
+    return response()->json($tag::select('name')->distinct()->get()->pluck('name'));
+});

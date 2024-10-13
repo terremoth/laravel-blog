@@ -31,7 +31,7 @@
                 <!-- Post content-->
                 <section class="mb-5">
                     <p>
-                        {{$post->content}}
+                        {!!  $post->content !!}
                     </p>
                 </section>
             </article>

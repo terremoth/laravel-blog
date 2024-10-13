@@ -9,12 +9,13 @@
     <title>Admin Dashboard - Blog</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     @vite(['resources/css/admin.css'])
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+{{--    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>--}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">Laravel Blog</a>
+    <a class="navbar-brand ps-3" href="/">Laravel Blog</a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar Search-->
@@ -44,12 +45,12 @@
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Admin Area</div>
 {{--                    {{dd(\Request::route()->getName())}}--}}
-                    <a class="nav-link {{ Route::is('admin.index') ? 'text-white' : ''}}" href="{{ route('admin.index') }}">
+                    <a class="nav-link {{ Request::is('admin') ? 'text-white' : ''}}" href="{{ route('admin.index') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
 
-                    <a class="nav-link" href="#">
+                    <a class="nav-link {{ Request::is('admin/posts*') ? 'text-white' : ''}}" href="{{route('admin.posts.index')}}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-file-lines"></i></div>
                         Posts
                     </a>

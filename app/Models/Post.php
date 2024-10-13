@@ -66,4 +66,15 @@ class Post extends Model
     {
         return $this->hasMany(Tag::class);
     }
+
+    public function tagsAsStringTogether() : string
+    {
+        return implode(',', $this->tags->select('name')->flatten()->toArray());
+    }
+
+    public function tagsAsStringSeparated() : string
+    {
+        return implode(', ', $this->tags->select('name')->flatten()->toArray());
+    }
+
 }
