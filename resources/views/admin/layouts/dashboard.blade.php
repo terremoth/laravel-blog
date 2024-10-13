@@ -95,6 +95,25 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
+
+                @if (session()->has('success_message'))
+                    <div class="alert alert-success mt-4" role="alert">
+                        <h4 class="alert-heading">@lang('Success!')</h4>
+                        {{ session('success_message') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger mt-4" role="alert">
+                        <h4 class="alert-heading">@lang('The following errors have occurred:')</h4>
+                        <ul class="list">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 @yield('content')
             </div>
         </main>

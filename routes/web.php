@@ -9,7 +9,7 @@ use App\Http\Controllers\TagController;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('blablablabla');
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/post/{id}/{url?}', [PostController::class, 'show'])->name('post');
 Route::get('/page/{id}/{url?}', [PageController::class, 'show'])->name('page');
@@ -26,4 +26,4 @@ Route::get('/user', function () {
     return '<h1>Users page</h1>';
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');

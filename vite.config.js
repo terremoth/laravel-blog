@@ -1,5 +1,10 @@
 import { defineConfig } from 'vite';
+import { normalizePath } from 'vite'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 import laravel from 'laravel-vite-plugin';
+import path from 'node:path'
+
+normalizePath(path.resolve(__dirname, 'public')) // C:/project/foo
 
 export default defineConfig({
     plugins: [
@@ -11,11 +16,21 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/admin.css',
                 'resources/js/admin.js',
-                '/node_modules/ckeditor4/ckeditor.js',
-                '/node_modules/ckeditor4/skins/moono-lisa/editor.css',
-                '/node_modules/ckeditor4/lang/en.js',
             ],
             refresh: true,
         }),
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'node_modules/tinymce',
+                    dest: 'assets'
+                },
+                {
+                    src: 'node_modules/source-code-editor-tinymce-plugin/codeeditor',
+                    dest: 'assets/tinymce/plugins'
+                }
+            ]
+        })
+
     ],
 });

@@ -7,9 +7,7 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Tag;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
@@ -17,7 +15,7 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $posts = Post::orderBy('id', 'desc')->limit(10)->paginate();
 
@@ -43,7 +41,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, $url): Factory|Application|View|RedirectResponse
+    public function show($id, $url): RedirectResponse | View
     {
         $post = Post::findOrFail($id);
 
@@ -68,9 +66,15 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
-        //
+
+        if ($post->guard([])->update($request->all())) {
+            session()->flash('success_message', 'Record ' . $post->id . ' successfully updated!');
+            return redirect()->route('admin.posts.index');
+        }
+
+        return redirect()->back()->withErrors(['Unable to update data', 'Database error'])->withInput($request->all());
     }
 
     /**
