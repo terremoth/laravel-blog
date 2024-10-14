@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $usersCount = User::count();
 
         $lastTenPosts = Post::select('id', 'title', 'user_id')->orderBy('id', 'desc')->limit(10)->get();
-        $lastTenComments = Comment::select('content', 'post_id')->orderBy('id', 'desc')->limit(10)->get();
+        $lastTenComments = Comment::select('content', 'post_id', 'user_id')->orderBy('id', 'desc')->limit(10)->get();
 
         // select post_id, count(post_id) as quantity from comments group by post_id order by quantity desc limit 10 ;
         $topTenMostCommentedPosts = Comment::select('post_id', DB::raw('count(post_id) as quantity'))
@@ -36,7 +36,9 @@ class DashboardController extends Controller
             'commentsCount' => $commentsCount,
             'tagsCount' => $tagsCount,
             'usersCount' => $usersCount,
-            'topTenMostCommentedPosts' => $topTenMostCommentedPosts
+            'topTenMostCommentedPosts' => $topTenMostCommentedPosts,
+            'lastTenPosts' => $lastTenPosts,
+            'lastTenComments' => $lastTenComments
         ]);
     }
 }

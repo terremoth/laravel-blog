@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
 {
@@ -27,9 +29,22 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request)
+    public function store(StoreCommentRequest $request, Post $post, Comment $comment): RedirectResponse
     {
-        //
+        if (session('captcha_phrase', false) != $request->post('captcha')) {
+            return back()->withErrors(['Wrong captcha'])->withFragment('#comment-area');
+        }
+
+        $comment->user_id = auth()->id();
+        $comment->content = $request->post('content');
+        $comment->post_id = $post->id;
+
+        if (!$comment->save()) {
+            return back()->withErrors(['Unable to save data'])->withFragment('#comment-area');
+        }
+
+        session()->flash('success_message', 'Comment published!');
+        return back()->withFragment('#comment-area');
     }
 
     /**

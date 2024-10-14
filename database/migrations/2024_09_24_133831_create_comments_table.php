@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('content', 1024);
             $table->tinyInteger('level')->default(1);
+            $table->tinyInteger('published')->default(1);
             $table->foreignId('comment_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('post_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

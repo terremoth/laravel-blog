@@ -19,7 +19,7 @@
                         <th>Title</th>
                         <th>Tags</th>
                         <th>By</th>
-                        <th># Comments</th>
+                        <th class="text-center"># Comments</th>
                         <th>Control</th>
                     </tr>
                 </thead>
@@ -31,12 +31,13 @@
                                 <td>{{ $post->title }}</td>
                                 <td>{{ $post->tagsAsStringSeparated() }}</td>
                                 <td>{{ $post->user->name }}</td>
-                                <td>{{ $post->comments->count() }}</td>
+                                <td class="text-center">{{ $post->comments->count() }}</td>
                                 <td>
+                                    <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="btn btn-info text-white"><i class="fa fa-pencil"></i> Edit</a>
+
                                     {{ html()->modelForm($post, 'DELETE', route('admin.posts.destroy', ['post' => $post->id]))->class('d-inline')->open() }}
                                         <button type="submit" class="btn btn-danger"><i class="fa fa-times"></i> Delete</button>
                                     {{ html()->closeModelForm() }}
-                                    <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="btn btn-info text-white"><i class="fa fa-pencil"></i> Edit</a>
                                 </td>
                             </tr>
                         @endforeach

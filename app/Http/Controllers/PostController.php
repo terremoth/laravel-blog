@@ -7,9 +7,11 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Tag;
+use Gregwar\Captcha\PhraseBuilder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
+use Gregwar\Captcha\CaptchaBuilder;
 
 class PostController extends Controller
 {
@@ -61,18 +63,27 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, $url): RedirectResponse | View
+    public function show(Post $post, $url): View|RedirectResponse
     {
-        $post = Post::findOrFail($id);
+        session()->forget('captcha_phrase');
 
         if ($post->url != $url) {
-            return redirect()->route('post', ['id' => $id, 'url' => $post->url]);
+            return redirect()->route('post', ['id' => $post->id, 'url' => $post->url]);
         }
 
         $pages = Page::all();
         $tags = Tag::halfTags();
+        $comments = $post->comments()->orderBy('id', 'desc')->get();
 
-        return view('posts/show', ['post' => $post, 'pages' => $pages, 'tags' => $tags]);
+        $phraseBuilder = new PhraseBuilder(mt_rand(5,7), '0123456789abcdefghijklmnopqrstuvwxyz');
+        $builder = new CaptchaBuilder(null, $phraseBuilder);
+//        $builder->setMaxBehindLines(0);
+//        $builder->setDistortion(false);
+        $builder->build();
+
+        session(['captcha_phrase' => $builder->getPhrase()]);
+
+        return view('posts/show', ['post' => $post, 'pages' => $pages, 'tags' => $tags, 'comments' => $comments, 'captcha' => $builder]);
     }
 
     /**

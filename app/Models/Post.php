@@ -46,7 +46,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Post whereUpdatedAt($value)
  * @method static Builder|Post whereUrl($value)
  * @method static Builder|Post whereUserId($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Post extends Model
 {
