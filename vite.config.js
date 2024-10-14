@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/js/app.js',
                 'resources/css/admin.css',
+                'resources/css/captcha-audio.css',
                 'resources/js/admin.js',
             ],
             refresh: true,

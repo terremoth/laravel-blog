@@ -1,0 +1,16 @@
+.captcha-audio {
+    width: 135px;
+}
+
+.captcha-audio::-webkit-media-controls-timeline-container,
+.captcha-audio::-webkit-media-controls-current-time-display,
+.captcha-audio::-webkit-media-controls-time-remaining-display,
+.captcha-audio::-webkit-media-controls-timeline,
+.captcha-audio::-webkit-media-controls-fullscreen-button,
+.captcha-audio::-webkit-media-controls-rewind-button,
+.captcha-audio::-webkit-media-controls-return-to-realtime-button,
+.captcha-audio::-webkit-media-controls-toggle-closed-captions-button
+{
+    display: none;
+}
+

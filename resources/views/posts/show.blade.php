@@ -1,4 +1,9 @@
 @extends('layouts.structure')
+
+@push('css')
+@vite(['resources/css/captcha-audio.css'])
+@endpush
+
 @section('content')
 
 <!-- Page content-->
@@ -38,16 +43,61 @@
             <!-- Comments section-->
             <section class="mb-5">
                 <div class="card bg-light">
-                    <div class="card-body">
+                    <div class="card-body" id="comment-area">
                         <!-- Comment form-->
-                        <form class="mb-4">
-                            <textarea class="form-control" required rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
-                            <button class="btn btn-primary mt-3">Comment</button>
-                        </form>
+                        @auth
+                            {{ html()->form('POST', route('comment.store', ['post' => $post->id]))->open() }}
+                                <textarea maxlength="1024" name="content" class="form-control" required rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                                <div class="input-group mt-3">
+                                    <img src="{{$captcha->inline()}}" alt="captcha image" title="captcha image">
+                                    <a class="btn btn-default" title="Refresh Captcha" target="_top"
+                                       href="{{route('captcha.refresh') }}">
+                                        <i class="fa fa-xl fa-rotate-right align-bottom"></i>
+                                    </a>
+                                    <audio title="Listen the captcha characters" class="captcha-audio" controls src="{{ route('captcha-audio', ['token' => csrf_token()]) }}"></audio>
+                                    <input placeholder="Type the corresponding captcha text" type="text" autocomplete="off" name="captcha" value="" required class="form-control">
+                                </div>
+                                <div class="row mt-3">
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3"><i class="fa fa-comment-dots"></i> Comment</button>
+                            {{ html()->form()->close() }}
+                        @endauth
+                        @guest
+                            <form>
+                                <textarea name="content" disabled class="form-control" required rows="3" placeholder="You need to be a user and login to comment"></textarea>
+                                <div class="">
+                                    <button type="button" disabled class="btn btn-primary mt-3 align-middle"><i class="fa fa-lock"></i> Comment</button>
+                                    <a class="d-inline-block mt-2 ml-4" href="">Create Account</a>
+                                </div>
+                            </form>
+                        @endguest
+
                         <!-- Comment with nested comments-->
                         <hr>
+                        @if (session()->has('success_message'))
+                            <div class="alert alert-success mt-4 alert-dismissible fade show" role="alert">
+                                <i class="fa fa-check"></i> {{ session('success_message') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger mt-4 alert-dismissible fade show" role="alert">
+                                <h5 class="alert-heading">@lang('The following errors have occurred:')</h5>
+                                <ul class="list">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
                             <!-- Parent comment-->
-                                @foreach($post->comments as $comment)
+                        @if (!count($comments))
+                            <span>No comments yet</span>
+                        @endif
+                                @foreach($comments as $comment)
                             <div class="d-flex mb-4">
                                 <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                 <div class="ms-3">
@@ -75,13 +125,13 @@
                         @endforeach
 
                         <!-- Single comment-->
-                        <div class="d-flex">
-                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                            <div class="ms-3">
-                                <div class="fw-bold">Commenter Name</div>
-                                When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                            </div>
-                        </div>
+{{--                        <div class="d-flex">--}}
+{{--                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>--}}
+{{--                            <div class="ms-3">--}}
+{{--                                <div class="fw-bold">Commenter Name</div>--}}
+{{--                                When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
             </section>
