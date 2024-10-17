@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\PageFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  *
@@ -18,24 +23,26 @@ use Illuminate\Support\Facades\Storage;
  * @property string|null $meta_description
  * @property string|null $featured_image_path
  * @property string|null $featured_image_alt
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Database\Factories\PageFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Page query()
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereFeaturedImageAlt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereFeaturedImagePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereMetaKeywords($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page wherePublished($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Page whereUrl($value)
- * @mixin \Eloquent
+ * @property string|null $featured_image_type
+ * @property string|null $featured_image_external_url
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static PageFactory factory($count = null, $state = [])
+ * @method static Builder|Page newModelQuery()
+ * @method static Builder|Page newQuery()
+ * @method static Builder|Page query()
+ * @method static Builder|Page whereContent($value)
+ * @method static Builder|Page whereCreatedAt($value)
+ * @method static Builder|Page whereFeaturedImageAlt($value)
+ * @method static Builder|Page whereFeaturedImagePath($value)
+ * @method static Builder|Page whereId($value)
+ * @method static Builder|Page whereMetaDescription($value)
+ * @method static Builder|Page whereMetaKeywords($value)
+ * @method static Builder|Page whereName($value)
+ * @method static Builder|Page wherePublished($value)
+ * @method static Builder|Page whereUpdatedAt($value)
+ * @method static Builder|Page whereUrl($value)
+ * @mixin Eloquent
  */
 class Page extends Model
 {
@@ -43,12 +50,22 @@ class Page extends Model
 
     const PAGES_IMAGES_PATH = 'pages/';
 
-    public static function solveFeaturedImageUrl(string $url): string
+    /**
+     * @return Attribute
+     * @property string|null $image_path
+     * */
+    protected function imagePath() : Attribute
     {
-        if (str_starts_with($url, 'https://')) {
-            return $url;
-        }
+        return Attribute::make(
+            get: function (mixed $value, array $attributes)  {
+                $path = $attributes['featured_image_path'] ?? $attributes['featured_image_external_url'];
 
-        return Storage::disk('public')->url(self::PAGES_IMAGES_PATH . $url);
+                if (! str_starts_with($path, 'https://')) {
+                    $path = Storage::disk('public')->url(self::PAGES_IMAGES_PATH . $path);
+                }
+
+                return $path;
+            }
+        );
     }
 }
