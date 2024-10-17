@@ -6,11 +6,12 @@
 <div class="row mb-2">
     <div class="col-sm-12 col-md-12 col-lg-9 col-xl-8">
         <label class="form-label" for="name">Name:</label>
-        {{ html()->text('name')->required()->maxlength(255)->placeholder('Lorem ipsum dolor sit amet...')->autocomplete()->class('form-control') }}
+        {{ html()->text('name')->required()->maxlength(255)->placeholder('Lorem ipsum dolor sit amet...')
+            ->autocomplete()->class('form-control') }}
     </div>
     <div class="col-sm-6 col-lg-3 col-xl-2">
         <label class="form-label" for="published">Published:</label>
-        {{ html()->select('published', ['1' => 'Yes', '0' => 'No'])->required()->class('form-select') }}
+        {{ html()->select('published', $yesNoOptions)->required()->class('form-select') }}
     </div>
 </div>
 <div class="row mb-4">
@@ -22,13 +23,14 @@
 <div class="row mb-4">
     <div class="col-md-12">
         <label for="tags" class="form-label">Meta Keywords:</label>
-        {{ html()->text('meta_keywords')->placeholder('Comma separated, eg: car,game,action')->class('form-control')->required()->id('tags') }}
+        {{ html()->text('meta_keywords')->placeholder('Comma separated, eg: car,game,action')
+            ->class('form-control')->required()->id('tags') }}
     </div>
 </div>
 <h3 class="mt-4">Featured Image</h3>
 
 <div class="row row-cols-lg-auto g-3 align-items-center mb-3">
-{{--    <div class="col-sm-6">--}}
+    {{--    <div class="col-sm-6">--}}
     <div class="col-12">
 
         <label class="form-label" for="featured_image_type">
@@ -36,10 +38,7 @@
         </label>
     </div>
     <div class="col-12">
-        {{ html()->select('featured_image_type', [
-            App\Models\FeaturedImageType::File->value => 'As a file',
-            App\Models\FeaturedImageType::URL->value => 'As a URL'
-        ])->required()->class('form-select') }}
+        {{ html()->select('featured_image_type', $yesNoOptions)->required()->class('form-select') }}
     </div>
 </div>
 
@@ -50,7 +49,8 @@
     </div>
     <div class="col-md-6">
         <label for="tags" class="form-label">Or Image URL:</label>
-        {{ html()->input('url', 'featured_image_external_url')->placeholder('Complete URL, eg.: https://picsum.photos/200/300')->class('form-control') }}
+        {{ html()->input('url', 'featured_image_external_url')
+            ->placeholder('Complete URL, eg.: https://picsum.photos/200/300')->class('form-control') }}
     </div>
 
 </div>
@@ -58,25 +58,29 @@
 <div class="row mb-4">
     <div class="col-md-6">
         <label for="tags" class="form-label">Featured Image Alt. Description:</label>
-        {{ html()->text('featured_image_alt')->placeholder('Description in case your image does\'t load or for blind people')->class('form-control') }}
+        {{ html()->text('featured_image_alt')
+             ->placeholder('Description in case your image does\'t load or for blind people')->class('form-control') }}
     </div>
 </div>
 <div class="row mb-4">
-        @isset($page)
-            @if ($page->featured_image_path || $page->featured_image_external_url)
-                <div class="col-md-4 load-image">
-                    <img src="{{\App\Models\Page::solveFeaturedImageUrl($page->featured_image_path ?? $page->featured_image_external_url)}}" class="img-thumbnail" alt="{{$page->featured_image_alt}}" />
-                </div>
-                <div class="col-md-8 img-btn-delete">
-                    <a href="{{route('admin.pages.delete-featured-image', ['page' => $page->id, 'token' => csrf_token()])}}" class="btn btn-danger" role="button">
-                        <i class="fa fa-times"></i> Remove Image
-                    </a>
-                </div>
-           @endif
-        @else
-            <div class="col-md-4 load-image"></div>
-            <div class="col-md-8 img-btn-delete"></div>
-        @endisset
+    @isset($page)
+        @if ($page->featured_image_path || $page->featured_image_external_url)
+            <div class="col-md-4 load-image">
+                <img
+                    src="{{Page::solveFeaturedImageUrl($page->featured_image_path ?? $page->featured_image_external_url)}}"
+                    class="img-thumbnail" alt="{{$page->featured_image_alt}}"/>
+            </div>
+            <div class="col-md-8 img-btn-delete">
+                <a href="{{route('admin.pages.delete-featured-image', ['page' => $page->id, 'token' => csrf_token()])}}"
+                   class="btn btn-danger" role="button">
+                    <i class="fa fa-times"></i> Remove Image
+                </a>
+            </div>
+        @endif
+    @else
+        <div class="col-md-4 load-image"></div>
+        <div class="col-md-8 img-btn-delete"></div>
+    @endisset
 </div>
 
 <div class="row mb-4">
