@@ -13,7 +13,7 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/post/{post}/{url?}', [PostController::class, 'show'])->name('post');
-Route::get('/page/{id}/{url?}', [PageController::class, 'show'])->name('page');
+Route::get('/page/{page}/{url?}', [PageController::class, 'show'])->name('page');
 Route::get('/tag/{name}', [TagController::class, 'show'])->name('tag');
 
 Route::resource('page', PageController::class);
