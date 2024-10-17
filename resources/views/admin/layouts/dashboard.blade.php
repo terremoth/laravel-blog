@@ -7,9 +7,13 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Admin Dashboard - Blog</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     @vite(['resources/css/admin.css'])
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @vite(['resources/css/admin-controls.css'])
+    @stack('css')
+    @stack('styles')
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -54,7 +58,7 @@
                         Posts
                     </a>
 
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link {{ Request::is('admin/tags*') ? 'text-white' : ''}}" href="{{route('admin.tags.index')}}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
                         Tags
                     </a>
@@ -64,7 +68,7 @@
                         Comments
                     </a>
 
-                    <a class="nav-link" href="#">
+                    <a class="nav-link {{ Request::is('admin/pages*') ? 'text-white' : ''}}" href="{{route('admin.pages.index')}}">
                         <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                         Pages
                     </a>
@@ -137,6 +141,6 @@
 {{--<script src="assets/demo/chart-bar-demo.js"></script>--}}
 {{--<script src="js/datatables-simple-demo.js"></script>--}}
 @vite(['resources/js/admin.js'])
-
+@stack('scripts')
 </body>
 </html>

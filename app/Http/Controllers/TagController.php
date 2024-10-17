@@ -9,6 +9,8 @@ use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\User;
 use App\Models\Widget;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
@@ -16,9 +18,15 @@ class TagController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $tags = Tag::select('name', DB::raw('count(post_id) as quantity'))
+            ->groupBy('name')
+            ->orderBy('name')
+            ->paginate(10)
+        ;
+
+        return view('admin.tags.index', ['tags' => $tags]);
     }
 
     /**
@@ -40,7 +48,7 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($name)
+    public function show($name): View
     {
         $posts = Post::select('tags.name')
             ->select('posts.*')
@@ -49,7 +57,9 @@ class TagController extends Controller
 //            ->join('users', 'posts.user_id', '=', 'users.id')
             ->paginate(7);
 
-//        dd($posts);
+        if ($posts->count() == 0) {
+            abort(404);
+        }
 
         $pages = Page::get();
         $widgets = Widget::get();
@@ -76,8 +86,15 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tag $tag)
+    public function destroy($tagName): RedirectResponse
     {
-        //
+        $deleted = Tag::where('name', '=', urldecode($tagName))->delete();
+        if ($deleted) {
+            session()->flash('success_message', 'Records with "' . $tagName . '" successfully removed!');
+            return redirect()->route('admin.tags.index');
+        }
+
+        return redirect()->back()->withErrors(['Unable to delete data']);
+
     }
 }

@@ -12,11 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        $imageTypes = array_map(fn($item) => $item->value, App\Models\FeaturedImageType::cases());
+
+        Schema::create('posts', function (Blueprint $table) use ($imageTypes) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('title');
+            $table->string('title')->index();
             $table->string('featured_image_path')->nullable();
+            $table->string('featured_image_external_url')->nullable();
+            $table->enum('featured_image_type', $imageTypes)->nullable();
             $table->string('featured_image_alt')->nullable();
             $table->mediumText('content')->nullable();
             $table->unsignedBigInteger('last_updated_by')->nullable();

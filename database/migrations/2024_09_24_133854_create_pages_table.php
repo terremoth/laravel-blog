@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
+        $imageTypes = array_map(fn($item) => $item->value, App\Models\FeaturedImageType::cases());
+
+        Schema::create('pages', function (Blueprint $table) use ($imageTypes) {
             $table->id();
             $table->string('name');
             $table->string('url');
@@ -20,6 +22,8 @@ return new class extends Migration
             $table->string('meta_keywords')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('featured_image_path')->nullable();
+            $table->string('featured_image_external_url')->nullable();
+            $table->enum('featured_image_type', $imageTypes)->nullable();
             $table->string('featured_image_alt')->nullable();
             $table->timestamps();
         });

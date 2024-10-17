@@ -1,0 +1,19 @@
+.enabled-icon-0, .enabled-icon-1 {
+    --bs-text-opacity: 1;
+}
+
+.enabled-icon-1 {
+    color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
+}
+
+.enabled-icon-1:before {
+    content: "\f00c";
+}
+
+.enabled-icon-0 {
+    color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
+}
+
+.enabled-icon-0:before {
+    content: "\f00d";
+}

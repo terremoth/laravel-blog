@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -39,4 +40,15 @@ use Illuminate\Database\Eloquent\Model;
 class Page extends Model
 {
     use HasFactory;
+
+    const PAGES_IMAGES_PATH = 'pages/';
+
+    public static function solveFeaturedImageUrl(string $url): string
+    {
+        if (str_starts_with($url, 'https://')) {
+            return $url;
+        }
+
+        return Storage::disk('public')->url(self::PAGES_IMAGES_PATH . $url);
+    }
 }

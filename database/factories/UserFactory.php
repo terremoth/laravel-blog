@@ -30,7 +30,8 @@ class UserFactory extends Factory
             'bio' => fake()->realText(),
             'picture' => fake()->imageUrl(),
             'is_admin' => fake()->boolean(),
-            'show_email' => fake()->boolean(),
+            'show_email_as_image' => fake()->boolean(),
+            'show_phone_as_image' => fake()->boolean(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

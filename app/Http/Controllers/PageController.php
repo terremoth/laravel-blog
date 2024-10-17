@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FeaturedImageType;
 use App\Models\Page;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $pages = Page::select(['id', 'name', 'published', 'meta_keywords'])
+            ->orderBy('id', 'desc')->paginate(10);
+        return view('admin.pages.index', ['pages' => $pages]);
     }
 
     /**
@@ -39,7 +42,7 @@ class PageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, $url): Factory|Application|View|RedirectResponse
+    public function show($id, $url): View|RedirectResponse
     {
         $page = Page::findOrFail($id);
 
@@ -54,9 +57,9 @@ class PageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Page $page)
+    public function edit(Page $page) : View
     {
-        //
+        return view('admin.pages.edit', ['page' => $page]);
     }
 
     /**
@@ -73,5 +76,43 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         //
+    }
+
+    public function deleteFeaturedImage(Page $page, $token, Request $request) : RedirectResponse
+    {
+        if ($request->session()->token() != $token) {
+            abort(401);
+        }
+
+        $deleted = false;
+
+        if ($page->featured_image_type == FeaturedImageType::File->value) {
+            $deleted = Storage::disk('public')->delete(Page::PAGES_IMAGES_PATH . $page->featured_image_path);
+            $page->featured_image_path = null;
+        } elseif ($page->featured_image_type == FeaturedImageType::URL->value) {
+            $deleted = true;
+            $page->featured_image_external_url = null;
+        }
+
+        $page->featured_image_alt = null;
+        $saved = $page->save();
+        $errors = [];
+
+        if (!$deleted) {
+            $errors[] = 'Unable to delete image file from storage';
+        }
+
+        if (!$saved) {
+            $errors[] = 'Unable to update database';
+        }
+
+        $route = 'admin.pages.edit';
+
+        if ($deleted && $saved) {
+            session()->flash('success_message', 'Featured Image successfully deleted!');
+            return redirect()->route($route, ['page' => $page->id])->withErrors($errors);
+        }
+
+        return redirect()->route($route, ['page' => $page->id])->withErrors($errors);
     }
 }
