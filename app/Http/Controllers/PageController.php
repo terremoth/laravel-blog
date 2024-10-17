@@ -6,6 +6,7 @@ use App\Models\FeaturedImageType;
 use App\Models\Page;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
+use App\Models\YesNoOptions;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -42,12 +43,10 @@ class PageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, $url): View|RedirectResponse
+    public function show(Page $page, $url): View|RedirectResponse
     {
-        $page = Page::findOrFail($id);
-
         if ($page->url != $url) {
-            return redirect()->route('page', ['id' => $id, 'url' => $page->url]);
+            return redirect()->route('page', ['id' => $page->id, 'url' => $page->url]);
         }
 
         $pages = Page::all();
@@ -59,7 +58,14 @@ class PageController extends Controller
      */
     public function edit(Page $page) : View
     {
-        return view('admin.pages.edit', ['page' => $page]);
+        $yesNoOptions = YesNoOptions::getOptions();
+        $imageOptions = FeaturedImageType::getOptions();
+
+        return view('admin.pages.edit', [
+            'page' => $page,
+            'yesNoOptions' => $yesNoOptions,
+            'imageOptions' => $imageOptions
+        ]);
     }
 
     /**
@@ -106,13 +112,10 @@ class PageController extends Controller
             $errors[] = 'Unable to update database';
         }
 
-        $route = 'admin.pages.edit';
-
         if ($deleted && $saved) {
             session()->flash('success_message', 'Featured Image successfully deleted!');
-            return redirect()->route($route, ['page' => $page->id])->withErrors($errors);
         }
 
-        return redirect()->route($route, ['page' => $page->id])->withErrors($errors);
+        return redirect()->route('admin.pages.edit', ['page' => $page->id])->withErrors($errors);
     }
 }
