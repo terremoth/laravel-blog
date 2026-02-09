@@ -117,7 +117,7 @@ class PostController extends Controller
         }
 
         if ($post->guard([])->update($request->except('tags'))) {
-            session()->flash('success_message', 'Record ' . $post->id . ' successfully updated!');
+            session()->flash('success_message', 'Post ' . $post->id . ' successfully updated!');
             return redirect()->route('admin.posts.index');
         }
 
@@ -131,7 +131,7 @@ class PostController extends Controller
     {
         $deleted = $post->delete();
         if ($deleted) {
-            session()->flash('success_message', 'Record ' . $post->id . ' successfully removed!');
+            session()->flash('success_message', 'Post ' . $post->id . ' successfully removed!');
             return redirect()->route('admin.posts.index');
         }
 

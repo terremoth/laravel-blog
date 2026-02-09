@@ -17,7 +17,7 @@
 <div class="row mb-4">
     <div class="col-md-12">
         <label for="meta_description" class="form-label">Meta Description:</label>
-        {{ html()->text('meta_description')->placeholder('The page description')->class('form-control')->required() }}
+        {{ html()->text('meta_description')->placeholder('The page description')->class('form-control') }}
     </div>
 </div>
 <div class="row mb-4">
@@ -38,7 +38,7 @@
         </label>
     </div>
     <div class="col-12">
-        {{ html()->select('featured_image_type', $yesNoOptions)->required()->class('form-select') }}
+        {{ html()->select('featured_image_type', $imageOptions)->required()->class('form-select') }}
     </div>
 </div>
 
@@ -63,24 +63,25 @@
     </div>
 </div>
 <div class="row mb-4">
-    @isset($page)
-        @if ($page->featured_image_path || $page->featured_image_external_url)
+    @if(isset($page))
+        @if ($page->image_path)
             <div class="col-md-4 load-image">
-                <img
-                    src="{{Page::solveFeaturedImageUrl($page->featured_image_path ?? $page->featured_image_external_url)}}"
-                    class="img-thumbnail" alt="{{$page->featured_image_alt}}"/>
+                <img src="{{$page->image_path}}" class="img-thumbnail" alt="{{$page->featured_image_alt}}"/>
             </div>
             <div class="col-md-8 img-btn-delete">
                 <a href="{{route('admin.pages.delete-featured-image', ['page' => $page->id, 'token' => csrf_token()])}}"
                    class="btn btn-danger" role="button">
-                    <i class="fa fa-times"></i> Remove Image
+                    <i class="fa fa-times"></i> Remove previous saved image
                 </a>
             </div>
+        @else
+            <div class="col-md-4 load-image"></div>
+            <div class="col-md-8 img-btn-delete"></div>
         @endif
     @else
         <div class="col-md-4 load-image"></div>
         <div class="col-md-8 img-btn-delete"></div>
-    @endisset
+    @endif
 </div>
 
 <div class="row mb-4">

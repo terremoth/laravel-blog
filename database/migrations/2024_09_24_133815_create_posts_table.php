@@ -26,8 +26,8 @@ return new class extends Migration
             $table->unsignedBigInteger('last_updated_by')->nullable();
             $table->boolean('enable_comments')->default(true);
             $table->string('url');
-            $table->timestamps();
             $table->foreign('last_updated_by')->on('users')->references('id');
+            $table->timestamps();
         });
     }
 

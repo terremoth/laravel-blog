@@ -7,7 +7,7 @@ No big tech companies account necessary to install and use it.
 
 ## Goals (CMS Resources)
 - [x] Very small application (without dependencies)
-- [x] complete WYSIWYG rich text editor with full toolbar ]
+- [x] complete WYSIWYG rich text editor with full toolbar
 - [x] Mobile-First, mobile and tablet friendly
 - [ ] 1-step blog installer
 - [ ] customize templates

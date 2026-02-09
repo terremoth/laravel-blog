@@ -60,7 +60,7 @@ class Page extends Model
             get: function (mixed $value, array $attributes)  {
                 $path = $attributes['featured_image_path'] ?? $attributes['featured_image_external_url'];
 
-                if (! str_starts_with($path, 'https://')) {
+                if (! str_starts_with($path, 'https://') && $path) {
                     $path = Storage::disk('public')->url(self::PAGES_IMAGES_PATH . $path);
                 }
 

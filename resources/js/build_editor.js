@@ -7,14 +7,14 @@ function build_editor(selector) {
         promotion: false,
         resize: true,
         plugins: `autoresize codeeditor autosave accordion advlist anchor autolink autoresize autolink autosave charmap
-                codesample directionality emoticons fullscreen help image importcss insertdatetime link lists
+                codesample directionality emoticons fullscreen help image importcss insertdatetime link lists format
                 media nonbreaking pagebreak preview quickbars save searchreplace table visualblocks visualchars wordcount`,
 
         toolbar: [
             `help | restoredraft | undo redo | newdocument cancel selectall print codeeditor fullscreen preview
                 searchreplace wordcount | copy cut paste pastetext remove save | visualblocks visualchars | visualaid`,
 
-            `blocks fontfamily fontsize | bold italic underline strikethrough subscript superscript blockquote
+            `blocks fontfamily fontsize | blockquote bold italic underline strikethrough subscript superscript blockquote
                 forecolor backcolor | ltr rtl removeformat | styles`,
 
             `indent outdent lineheight aidialog aishortcuts aligncenter alignjustify alignleft alignnone

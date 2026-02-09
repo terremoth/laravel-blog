@@ -6,7 +6,7 @@
         <li class="breadcrumb-item active">Post</li>
         <li class="breadcrumb-item active">Edit</li>
     </ol>
-    {{ html()->modelForm($post, 'PATCH', route('admin.posts.update', ['post' => $post->id]))->open() }}
+    {{ html()->modelForm($post, 'PATCH', route('admin.posts.update', ['post' => $post->id]))->acceptsFiles()->open() }}
     @include('admin/posts/fields')
     {{ html()->closeModelForm() }}
 @endsection

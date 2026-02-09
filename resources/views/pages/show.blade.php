@@ -14,7 +14,7 @@
                     </figure>
                 @endif
                 <section class="mb-5">
-                    {{$page->content}}
+                    {!! $page->content !!}
                 </section>
             </article>
         </div>

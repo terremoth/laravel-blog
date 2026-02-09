@@ -9,6 +9,7 @@
     {{ html()->modelForm($page, 'PATCH', route('admin.pages.update', ['page' => $page->id]))
         ->id('form-pages-update')
         ->name('form-pages-update')
+        ->acceptsFiles()
         ->open() }}
     @include('admin/pages/fields')
     {{ html()->closeModelForm() }}

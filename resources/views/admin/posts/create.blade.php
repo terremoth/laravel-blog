@@ -6,7 +6,7 @@
         <li class="breadcrumb-item active">Post</li>
         <li class="breadcrumb-item active">Create</li>
     </ol>
-    {{ html()->form('POST', route('admin.posts.store'))->open() }}
+    {{ html()->form('POST', route('admin.posts.store'))->acceptsFiles()->open() }}
     @include('admin/posts/fields')
     {{ html()->form()->close() }}
 @endsection

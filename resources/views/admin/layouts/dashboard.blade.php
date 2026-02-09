@@ -21,18 +21,18 @@
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="/">Laravel Blog</a>
     <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-xl fa-bars"></i></button>
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         <div class="input-group">
             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-xl fa-search"></i></button>
         </div>
     </form>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-xl fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
                 <li><a class="dropdown-item" href="#!">Activity Log</a></li>
@@ -50,47 +50,52 @@
                     <div class="sb-sidenav-menu-heading">Admin Area</div>
 {{--                    {{dd(\Request::route()->getName())}}--}}
                     <a class="nav-link {{ Request::is('admin') ? 'text-white' : ''}}" href="{{ route('admin.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-xl fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
 
+                    <a class="nav-link" href="#">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-xl fa-photo-film"></i></i></div>
+                        Media Gallery
+                    </a>
+
                     <a class="nav-link {{ Request::is('admin/posts*') ? 'text-white' : ''}}" href="{{route('admin.posts.index')}}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-file-lines"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-xl fa-file-lines"></i></div>
                         Posts
                     </a>
 
                     <a class="nav-link {{ Request::is('admin/tags*') ? 'text-white' : ''}}" href="{{route('admin.tags.index')}}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-xl fa-tags"></i></div>
                         Tags
                     </a>
 
                     <a class="nav-link" href="charts.html">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-comments"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-xl fa-comments"></i></div>
                         Comments
                     </a>
 
                     <a class="nav-link {{ Request::is('admin/pages*') ? 'text-white' : ''}}" href="{{route('admin.pages.index')}}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-xl fa-book-open"></i></div>
                         Pages
                     </a>
 
                     <a class="nav-link" href="tables.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-xl fa-users"></i></div>
                         Users
                     </a>
 
                     <a class="nav-link" href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-xl fa-columns"></i></div>
                         Layouts
                     </a>
 
                     <a class="nav-link" href="#">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-xl fa-columns"></i></div>
                         Widgets
                     </a>
 
                     <a class="nav-link" href="tables.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-gear"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-xl fa-gear"></i></div>
                         Configuration
                     </a>
 

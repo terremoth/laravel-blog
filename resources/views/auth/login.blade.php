@@ -1,5 +1,9 @@
 @extends('layouts.app')
-
+@push('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -54,6 +58,7 @@
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-arrow-right-to-bracket"></i>
                                     {{ __('Login') }}
                                 </button>
 

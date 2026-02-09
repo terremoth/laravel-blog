@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('featured_image_external_url')->nullable();
             $table->enum('featured_image_type', $imageTypes)->nullable();
             $table->string('featured_image_alt')->nullable();
+            $table->foreign('ascendant')->on('pages')->references('id');
             $table->timestamps();
         });
     }

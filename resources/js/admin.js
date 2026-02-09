@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', event => {
+window.addEventListener('DOMContentLoaded', () => {
 
     // Toggle the side navigation
     const sidebarToggle = document.body.querySelector('#sidebarToggle');
@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', event => {
         sidebarToggle.addEventListener('click', event => {
             event.preventDefault();
             document.body.classList.toggle('sb-sidenav-toggled');
-            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+            localStorage.setItem('sb|sidebar-toggle', String(document.body.classList.contains('sb-sidenav-toggled')));
         });
     }
 
@@ -36,7 +36,7 @@ function load_image_from_file_input(input_selector, output_image_selector, callb
     const acceptableFileFormat = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'jfif', 'webp', 'tiff', 'svg', 'apng', 'avif', 'tif', 'ico'];
 
     document.querySelector(input_selector).onchange = function (evt) {
-        const target = evt.target || window.event.srcElement;
+        const target = evt.target;
         const files = target.files;
         const checkIfImageCanLoad = FileReader && files && files.length;
 
